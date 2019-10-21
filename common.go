@@ -116,6 +116,7 @@ func ParseArgs(args []string) *Params {
 
 		if existIn(arg, watcherFlagsWithoutValue) {
 			params.Watcher[arg] = ""
+			continue
 		}
 		if existIn(arg, watcherFlags) {
 			// used for fetching the value of the given parameter
