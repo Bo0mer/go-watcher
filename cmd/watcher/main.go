@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/canthefason/go-watcher"
+	"github.com/Bo0mer/go-watcher"
 )
 
 func main() {
