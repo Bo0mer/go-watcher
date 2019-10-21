@@ -39,7 +39,11 @@ func (b *Builder) Build(p *Params) {
 		color.Cyan("Building %s...\n", pkg)
 
 		// build package
-		cmd, err := runCommand("go", "build", "-i", "-o", fileName, pkg)
+		args := []string{"build", "-race", "-i", "-o", fileName, pkg}
+		if p.Has("race") {
+			args = []string{"build", "-race", "-i", "-o", fileName, pkg}
+		}
+		cmd, err := runCommand("go", args...)
 		if err != nil {
 			log.Fatalf("Could not run 'go build' command: %s", err)
 			continue

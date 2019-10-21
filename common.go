@@ -15,6 +15,7 @@ import (
 const binaryName = "watcher"
 
 var watcherFlags = []string{"run", "watch", "watch-vendor"}
+var watcherFlagsWithoutValue = []string{"race"}
 
 // Params is used for keeping go-watcher and application flag parameters
 type Params struct {
@@ -35,6 +36,12 @@ func NewParams() *Params {
 // Get returns the watcher parameter with the given name
 func (p *Params) Get(name string) string {
 	return p.Watcher[name]
+}
+
+// Has reports whether the watcher parameter with the given name exists.
+func (p *Params) Has(name string) bool {
+	_, ok := p.Watcher[name]
+	return ok
 }
 
 func (p *Params) cloneRunFlag() {
@@ -107,6 +114,9 @@ func ParseArgs(args []string) *Params {
 		arg := args[i]
 		arg = stripDash(arg)
 
+		if existIn(arg, watcherFlagsWithoutValue) {
+			params.Watcher[arg] = ""
+		}
 		if existIn(arg, watcherFlags) {
 			// used for fetching the value of the given parameter
 			if len(args) <= i+1 {
